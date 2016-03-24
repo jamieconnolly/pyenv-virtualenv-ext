@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Usage: pyenv virtualenv-file-write <file> <virtualenv>
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+PYENV_VIRTUAL_ENV_FILE="$1"
+PYENV_VIRTUAL_ENV="$2"
+
+if [ -z "$PYENV_VIRTUAL_ENV" ] || [ -z "$PYENV_VIRTUAL_ENV_FILE" ]; then
+  pyenv-help --usage virtualenv-file-write >&2
+  exit 1
+fi
+
+# Make sure the specified virtual environment is installed.
+pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" >/dev/null
+
+# Write the virtual environment out to disk.
+echo "$PYENV_VIRTUAL_ENV" > "$PYENV_VIRTUAL_ENV_FILE"
