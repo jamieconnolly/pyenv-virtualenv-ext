@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Usage: pyenv virtualenv-origin
 # Summary: Explain how the current Python virtual environment is set.
 
 set -e
