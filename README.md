@@ -6,8 +6,8 @@ pyenv-virtualenv-ext is a [pyenv](https://github.com/yyuu/pyenv) plugin that
 hooks into `pyenv exec` and `pyenv which` to make itself transparently aware of
 the virtual environment specified inside a `.python-venv` file.
 
-This means you don't have to worry about activating the virtual environment, or
-adding `eval "$(pyenv virtualenv-init -)"` to your profile.
+This means you don't have to add `eval "$(pyenv virtualenv-init -)"` to your
+profile, or manually activate the virtual environment.
 
 See the [list of releases](https://github.com/jamieconnolly/pyenv-virtualenv-ext/releases)
 for changes in each version.
@@ -64,7 +64,11 @@ Or, if you would like to install the latest development release:
 ## Usage
 
 Just add the name of the virtual environment to a `.python-venv` file in your
-project. That's it, you're good to go!
+project and that's it, you're good to go!
 
 [license]: https://github.com/jamieconnolly/pyenv-virtualenv-ext/blob/master/LICENSE
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
+
+## License
+
+&copy; 2016 Jamie Connolly. Released under the [MIT License](LICENSE.md).
