@@ -19,10 +19,11 @@ for script in "${scripts[@]}"; do
   source "$script"
 done
 
-if pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" 1>/dev/null 2>&1; then
-  echo $PYENV_VIRTUAL_ENV
-  exit
-else
-  echo "pyenv: virtualenv \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
-  exit 1
+if [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  if pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" 1>/dev/null 2>&1; then
+    echo $PYENV_VIRTUAL_ENV
+  else
+    echo "pyenv: virtualenv \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
+    exit 1
+  fi
 fi
