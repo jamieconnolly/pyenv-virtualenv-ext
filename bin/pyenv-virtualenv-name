@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Usage: pyenv virtualenv-name
+# Summary: Show the current Python virtual environment.
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+if [ -z "$PYENV_VIRTUAL_ENV" ]; then
+  PYENV_VIRTUAL_ENV_FILE="$(pyenv-virtualenv-file)"
+  PYENV_VIRTUAL_ENV="$(pyenv-version-file-read "$PYENV_VIRTUAL_ENV_FILE" || true)"
+else
+  PYENV_VIRTUAL_ENV="$(basename $PYENV_VIRTUAL_ENV)"
+fi
+
+OLDIFS="$IFS"
+IFS=$'\n' scripts=(`pyenv-hooks virtualenv-name`)
+IFS="$OLDIFS"
+for script in "${scripts[@]}"; do
+  source "$script"
+done
+
+if pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" 1>/dev/null 2>&1; then
+  echo $PYENV_VIRTUAL_ENV
+  exit 0
+else
+  echo "pyenv: virtualenv \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
+  exit 1
+fi
