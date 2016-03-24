@@ -6,5 +6,5 @@ set -e
 PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-name)"
 
 if [ -n "$PYENV_VIRTUAL_ENV" ]; then
-  export PYENV_VERSION="$PYENV_VIRTUAL_ENV"
+  PYENV_COMMAND_PATH="${PYENV_ROOT}/versions/${PYENV_VIRTUAL_ENV}/bin/${PYENV_COMMAND}"
 fi
