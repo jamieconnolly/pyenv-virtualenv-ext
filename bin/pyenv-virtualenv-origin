@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Summary: Explain how the current Python virtual environment is set.
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+unset PYENV_VIRTUAL_ENV_ORIGIN
+
+OLDIFS="$IFS"
+IFS=$'\n' scripts=(`pyenv-hooks virtualenv-origin`)
+IFS="$OLDIFS"
+for script in "${scripts[@]}"; do
+  source "$script"
+done
+
+if [ -n "$PYENV_VIRTUAL_ENV_ORIGIN" ]; then
+  echo "$PYENV_VIRTUAL_ENV_ORIGIN"
+elif [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  echo "PYENV_VIRTUAL_ENV environment variable"
+else
+  pyenv-virtualenv-file
+fi
