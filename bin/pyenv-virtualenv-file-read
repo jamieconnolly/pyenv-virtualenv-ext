@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Usage: pyenv virtualenv-file-read <file>
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+VIRTUAL_ENV_FILE="$1"
+
+if [ -e "$VIRTUAL_ENV_FILE" ]; then
+  # Read the first non-whitespace word from the specified version file.
+  # Be careful not to load it whole in case there's something crazy in it.
+  IFS="${IFS}"$'\r'
+  words=( $(cut -b 1-1024 "$VIRTUAL_ENV_FILE") )
+  virtualenv="${words[0]}"
+
+  if [ -n "$virtualenv" ]; then
+    echo "$virtualenv"
+    exit
+  fi
+fi
+
+exit 1
