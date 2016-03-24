@@ -3,14 +3,10 @@
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x
 
-VIRTUALENV_FILE="$(pyenv-virtualenv-file "$PWD")"
+PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-name)"
 
-if [ -e "$VIRTUALENV_FILE" ]; then
-  VIRTUALENV="$(pyenv-version-file-read "$VIRTUALENV_FILE" || true)"
-
-  if pyenv-virtualenv-prefix "$VIRTUALENV" 1>/dev/null 2>&1; then
-    export PYENV_VERSION="$VIRTUALENV"
-    PYENV_COMMAND_PATH="$(pyenv-which "$PYENV_COMMAND")"
-    PYENV_BIN_PATH="${PYENV_COMMAND_PATH%/*}"
-  fi
+if [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  export PYENV_VERSION="$PYENV_VIRTUAL_ENV"
+  PYENV_COMMAND_PATH="$(pyenv-which "$PYENV_COMMAND")"
+  PYENV_BIN_PATH="${PYENV_COMMAND_PATH%/*}"
 fi
