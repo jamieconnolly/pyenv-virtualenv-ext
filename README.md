@@ -1,5 +1,6 @@
 # pyenv-virtualenv-ext
 
+[![build-status-image]][travis-ci]
 [![license-image]][license]
 
 pyenv-virtualenv-ext is a [pyenv](https://github.com/yyuu/pyenv) plugin that
@@ -66,9 +67,12 @@ Or, if you would like to install the latest development release:
 Just add the name of the virtual environment to a `.python-venv` file in your
 project and that's it, you're good to go!
 
-[license]: https://github.com/jamieconnolly/pyenv-virtualenv-ext/blob/master/LICENSE
-[license-image]: https://img.shields.io/badge/license-MIT-blue.svg
-
 ## License
 
 &copy; 2016 Jamie Connolly. Released under the [MIT License](LICENSE.md).
+
+[license]: https://github.com/jamieconnolly/pyenv-virtualenv-ext/blob/master/LICENSE
+[travis-ci]: https://travis-ci.org/jamieconnolly/pyenv-virtualenv-ext
+
+[build-status-image]: https://img.shields.io/travis/jamieconnolly/pyenv-virtualenv-ext/master.svg
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg
