@@ -31,8 +31,8 @@ setup() {
 }
 
 @test "writes value to arbitrary file" {
-  stub pyenv-virtualenv-prefix "foo : echo \"${PYENV_ROOT}/versions/foo\""
-  create_virtualenv "foo"
+  stub pyenv-virtualenv-prefix "foo : echo \"${PYENV_ROOT}/versions/2.7.11\""
+  create_virtualenv "2.7.11" "foo"
 
   assert [ ! -e "my-venv" ]
   run pyenv-virtualenv-file-write "${PWD}/my-venv" "foo"
@@ -40,5 +40,5 @@ setup() {
   assert [ "$(cat my-venv)" = "foo" ]
 
   unstub pyenv-virtualenv-prefix
-  remove_virtualenv "foo"
+  remove_virtualenv "2.7.11" "foo"
 }

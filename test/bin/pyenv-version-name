@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Usage: pyenv version-name
+# Summary: Fake version-name command.
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+if [ -n "$VERSION_NAME_HOOK" ]; then
+  source "$VERSION_NAME_HOOK"
+fi
+
+if [ -z "$PYENV_VERSION" ] || [ "$PYENV_VERSION" = "system" ]; then
+  echo "system"
+  exit
+fi
+
+version_exists() {
+  local version="$1"
+  [ -d "${PYENV_ROOT}/versions/${version}" ]
+}
+
+if version_exists "$PYENV_VERSION"; then
+  echo "$PYENV_VERSION"
+else
+  echo "pyenv: version \`$PYENV_VERSION' is not installed" >&2
+  exit 1
+fi

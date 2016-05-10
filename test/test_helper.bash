@@ -8,6 +8,7 @@ if [ -z "$PYENV_TEST_DIR" ]; then
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
   PATH="${BATS_TEST_DIRNAME}/../bin:$PATH"
+  PATH="${BATS_TEST_DIRNAME}/bin:$PATH"
   PATH="${PYENV_TEST_DIR}/bin:$PATH"
   export PATH
 fi
@@ -105,6 +106,16 @@ assert_line() {
   fi
 }
 
+create_executable() {
+  mkdir -p "${PYENV_ROOT}/versions/$1/bin"
+  touch "${PYENV_ROOT}/versions/$1/bin/$2"
+  chmod +x "${PYENV_ROOT}/versions/$1/bin/$2"
+}
+
+remove_executable() {
+  rm -f "${PYENV_ROOT}/versions/$1/bin/$2"
+}
+
 create_hook() {
   mkdir -p "${PYENV_HOOK_PATH}/$1"
   touch "${PYENV_HOOK_PATH}/$1/$2"
@@ -118,9 +129,7 @@ remove_hook() {
 }
 
 create_version() {
-  mkdir -p "${PYENV_ROOT}/versions/$1/bin"
-  touch "${PYENV_ROOT}/versions/$1/bin/python"
-  chmod +x "${PYENV_ROOT}/versions/$1/bin/python"
+  create_executable "$1" "python"
 }
 
 remove_version() {
