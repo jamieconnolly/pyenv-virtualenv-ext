@@ -5,10 +5,3 @@ install: git clone https://github.com/sstephenson/bats.git
 before_script:
   - bats/bin/bats --version
 script: bats/bin/bats --tap test
-
-notifications:
-  email:
-    on_success: never
-    on_failure: change
-
-sudo: false
