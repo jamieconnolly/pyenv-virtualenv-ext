@@ -8,7 +8,7 @@ setup() {
 }
 
 @test "no virtualenv selected" {
-  stub pyenv-hooks 'virtualenv-name : echo'
+  stub pyenv-hooks "virtualenv-name : echo"
 
   run pyenv-virtualenv-name
   assert_success
@@ -48,14 +48,14 @@ SH
 }
 
 @test "PYENV_VIRTUAL_ENV has precedence over local" {
-  stub pyenv-hooks 'virtualenv-name : echo'
+  stub pyenv-hooks "virtualenv-name : echo"
   stub pyenv-virtualenv-prefix "foo : true"
 
   cat > ".python-venv" <<<"foo"
   run pyenv-virtualenv-name
   assert_success "foo"
 
-  stub pyenv-hooks 'virtualenv-name : echo'
+  stub pyenv-hooks "virtualenv-name : echo"
   stub pyenv-virtualenv-prefix "bar : true"
 
   PYENV_VIRTUAL_ENV=bar run pyenv-virtualenv-name
@@ -66,7 +66,7 @@ SH
 }
 
 @test "missing virtualenv" {
-  stub pyenv-hooks 'virtualenv-name : echo'
+  stub pyenv-hooks "virtualenv-name : echo"
   stub pyenv-virtualenv-origin "echo \"PYENV_VIRTUAL_ENV environment variable\""
   stub pyenv-virtualenv-prefix "foo : false"
 

@@ -8,7 +8,7 @@ setup() {
 }
 
 @test "detects PYENV_VIRTUAL_ENV" {
-  stub pyenv-hooks 'virtualenv-origin : echo'
+  stub pyenv-hooks "virtualenv-origin : echo"
 
   PYENV_VIRTUAL_ENV=1 run pyenv-virtualenv-origin
   assert_success "PYENV_VIRTUAL_ENV environment variable"
@@ -17,7 +17,7 @@ setup() {
 }
 
 @test "detects local file" {
-  stub pyenv-hooks 'virtualenv-origin : echo'
+  stub pyenv-hooks "virtualenv-origin : echo"
 
   touch .python-venv
   run pyenv-virtualenv-origin
@@ -54,7 +54,7 @@ SH
 }
 
 @test "doesn't inherit PYENV_VIRTUAL_ENV_ORIGIN from environment" {
-  stub pyenv-hooks 'virtualenv-origin : echo'
+  stub pyenv-hooks "virtualenv-origin : echo"
 
   PYENV_VIRTUAL_ENV_ORIGIN=ignored run pyenv-virtualenv-origin
   assert_success
