@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Usage: pyenv virtualenv-local [<virtualenv>]
+#        pyenv virtualenv-local [--unset]
+# Summary: Set or show the local application-specific Python virtual environment.
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+# Provide pyenv completions
+if [ "$1" = "--complete" ]; then
+  echo --unset
+  exec pyenv-virtualenvs --bare
+fi
+
+PYENV_VIRTUAL_ENV="$1"
+
+if [ "$PYENV_VIRTUAL_ENV" = "--unset" ]; then
+  rm -f .python-venv
+elif [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  pyenv-virtualenv-file-write .python-venv "$PYENV_VIRTUAL_ENV"
+else
+  if virtualenv_file="$(pyenv-virtualenv-file "$PWD")"; then
+    pyenv-virtualenv-file-read "$virtualenv_file"
+  else
+    echo "pyenv: no local virtual environment configured for this directory" >&2
+    exit 1
+  fi
+fi
