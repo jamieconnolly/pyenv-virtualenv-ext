@@ -12,11 +12,15 @@ if [ -z "$PYENV_COMMAND" ]; then
   exit 1
 fi
 
+if [ -n "$PYENV_VERSION" ]; then
+  PYENV_COMMAND_PATH="${PYENV_ROOT}/versions/${PYENV_VERSION}/bin/${PYENV_COMMAND}"
+fi
+
 if [ -n "$WHICH_HOOK" ]; then
   source "$WHICH_HOOK"
 fi
 
-if [ -x "$PYENV_COMMAND_PATH" ]; then
+if [ -n "$PYENV_COMMAND_PATH" ]; then
   echo "$PYENV_COMMAND_PATH"
 else
   echo "pyenv: $PYENV_COMMAND: command not found" >&2

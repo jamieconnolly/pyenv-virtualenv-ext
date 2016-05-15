@@ -30,3 +30,14 @@ setup() {
   unstub pyenv-virtualenv-prefix
   remove_virtualenv "2.7.11" "foo"
 }
+
+@test "PYENV_VERSION has precedence over local virtual environment" {
+  create_version "2.7.10"
+  create_virtualenv "2.7.11" "foo"
+
+  PYENV_VERSION="2.7.10" run pyenv-version-name
+  assert_success "2.7.10"
+
+  remove_version "2.7.10"
+  remove_virtualenv "2.7.11" "foo"
+}
