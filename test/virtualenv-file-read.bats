@@ -9,18 +9,18 @@ setup() {
 
 @test "fails without arguments" {
   run pyenv-virtualenv-file-read
-  assert_failure
+  assert_failure ""
 }
 
 @test "fails for invalid file" {
   run pyenv-virtualenv-file-read "non-existent"
-  assert_failure
+  assert_failure ""
 }
 
 @test "fails for blank file" {
   echo > my-venv
   run pyenv-virtualenv-file-read my-venv
-  assert_failure
+  assert_failure ""
 }
 
 @test "reads simple virtual environment file" {

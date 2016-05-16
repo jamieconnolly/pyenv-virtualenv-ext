@@ -12,7 +12,7 @@ setup() {
   stub pyenv-virtualenv-name ": echo"
 
   run pyenv-virtualenv-version
-  assert_success
+  assert_failure ""
 
   unstub pyenv-hooks
   unstub pyenv-virtualenv-name
@@ -41,7 +41,7 @@ SH
 
   export PYENV_VIRTUAL_ENV=foo
   IFS=$' \t\n' run pyenv-virtualenv-version env
-  assert_success
+  assert_failure
   assert_line "HELLO=:hello:ugly:world:again"
 
   unstub pyenv-hooks
@@ -73,7 +73,7 @@ SH
   stub pyenv-virtualenv-name ": echo"
 
   PYENV_VIRTUAL_ENV_VERSION=ignored run pyenv-virtualenv-version
-  assert_success
+  assert_failure ""
 
   unstub pyenv-hooks
   unstub pyenv-virtualenv-name

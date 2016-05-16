@@ -58,5 +58,5 @@ create_file() {
 
 @test "fails when no virtual environment file in target directory" {
   run pyenv-virtualenv-file "$PWD"
-  assert_failure
+  assert_failure ""
 }

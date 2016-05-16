@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
 if [ -z "$(printenv PYENV_VERSION)" ]; then
-  PYENV_VERSION="$(pyenv-virtualenv-name)"
+  PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-name)"
+  if [ -n "$PYENV_VIRTUAL_ENV" ]; then
+    PYENV_VERSION="$PYENV_VIRTUAL_ENV"
+  fi
 fi
