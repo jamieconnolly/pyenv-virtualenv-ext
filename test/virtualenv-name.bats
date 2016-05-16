@@ -7,7 +7,7 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-@test "no virtualenv selected" {
+@test "no virtual environment selected" {
   stub pyenv-hooks "virtualenv-name : echo"
 
   run pyenv-virtualenv-name
@@ -65,7 +65,7 @@ SH
   unstub pyenv-virtualenv-prefix
 }
 
-@test "missing virtualenv" {
+@test "missing virtual environment" {
   stub pyenv-hooks "virtualenv-name : echo"
   stub pyenv-virtualenv-origin "echo \"PYENV_VIRTUAL_ENV environment variable\""
   stub pyenv-virtualenv-prefix "foo : false"

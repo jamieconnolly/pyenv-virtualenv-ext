@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Usage: pyenv virtualenv-version
+# Summary: Show the version of the current Python virtual environment.
+
+set -e
+[ -n "$PYENV_DEBUG" ] && set -x
+
+unset PYENV_VIRTUAL_ENV_VERSION
+
+PYENV_VIRTUAL_ENV="${PYENV_VIRTUAL_ENV:-$(pyenv-virtualenv-name)}"
+if [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  PYENV_VIRTUAL_ENV_PREFIX="$(pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV")"
+  PYENV_VIRTUAL_ENV_VERSION="$(basename "$PYENV_VIRTUAL_ENV_PREFIX")"
+fi
+
+OLDIFS="$IFS"
+IFS=$'\n' scripts=(`pyenv-hooks virtualenv-version`)
+IFS="$OLDIFS"
+for script in "${scripts[@]}"; do
+  source "$script"
+done
+
+if [ -n "$PYENV_VIRTUAL_ENV_VERSION" ]; then
+  echo "$PYENV_VIRTUAL_ENV_VERSION"
+fi

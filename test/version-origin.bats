@@ -9,8 +9,8 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-@test "no virtualenv selected" {
-  stub pyenv-hooks "virtualenv-name : echo"
+@test "no virtual environment selected" {
+  stub pyenv-hooks "virtualenv-origin : echo"
 
   run pyenv-version-origin
   assert_success "${PYENV_TEST_DIR}/.python-version"
@@ -18,17 +18,15 @@ setup() {
   unstub pyenv-hooks
 }
 
-@test "discovers version from pyenv-virtualenv-name" {
-  stub pyenv-hooks "virtualenv-name : echo"
-  stub pyenv-virtualenv-prefix "foo : echo \"${PYENV_ROOT}/versions/2.7.11\""
+@test "detects local virtual environment" {
+  stub pyenv-hooks "virtualenv-origin : echo"
   create_virtualenv "2.7.11" "foo"
 
   cat > ".python-venv" <<<"foo"
   run pyenv-version-origin
-  assert_success "\`foo' virtual environment"
+  assert_success "${PYENV_TEST_DIR}/.python-venv"
 
   unstub pyenv-hooks
-  unstub pyenv-virtualenv-prefix
   remove_virtualenv "2.7.11" "foo"
 }
 

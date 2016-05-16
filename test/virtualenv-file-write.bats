@@ -19,7 +19,7 @@ setup() {
   assert_failure
 }
 
-@test "setting nonexistent virtualenv fails" {
+@test "setting nonexistent virtual environment fails" {
   stub pyenv-virtualenv-prefix "foo : false"
 
   assert [ ! -e ".python-venv" ]
