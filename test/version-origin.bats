@@ -13,7 +13,7 @@ setup() {
   stub pyenv-hooks "virtualenv-origin : echo"
 
   run pyenv-version-origin
-  assert_failure ""
+  assert_success "${PYENV_TEST_DIR}/.python-version"
 
   unstub pyenv-hooks
 }
