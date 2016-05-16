@@ -36,7 +36,7 @@ setup() {
 
   assert [ ! -e "my-venv" ]
   run pyenv-virtualenv-file-write "${PWD}/my-venv" "foo"
-  assert_success
+  assert_success ""
   assert [ "$(cat my-venv)" = "foo" ]
 
   unstub pyenv-virtualenv-prefix

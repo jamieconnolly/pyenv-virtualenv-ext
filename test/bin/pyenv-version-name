@@ -5,6 +5,11 @@
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x
 
+if [ -z "$PYENV_VERSION" ]; then
+  PYENV_VERSION_FILE="$(pyenv-version-file)"
+  PYENV_VERSION="$(pyenv-version-file-read "$PYENV_VERSION_FILE" || true)"
+fi
+
 if [ -n "$VERSION_NAME_HOOK" ]; then
   source "$VERSION_NAME_HOOK"
 fi

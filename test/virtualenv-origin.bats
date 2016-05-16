@@ -57,7 +57,7 @@ SH
   stub pyenv-hooks "virtualenv-origin : echo"
 
   PYENV_VIRTUAL_ENV_ORIGIN=ignored run pyenv-virtualenv-origin
-  assert_success
+  assert_failure ""
 
   unstub pyenv-hooks
 }

@@ -7,14 +7,14 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-@test "no virtual environment selected" {
-  stub pyenv-hooks "virtualenv-name : echo"
+# @test "no virtual environment selected" {
+  # stub pyenv-hooks "virtualenv-name : echo"
 
-  run pyenv-virtualenv-name
-  assert_success
+  # run pyenv-virtualenv-name
+  # assert_failure "dsa"
 
-  unstub pyenv-hooks
-}
+  # unstub pyenv-hooks
+# }
 
 @test "PYENV_VIRTUAL_ENV can be overridden by hook" {
   stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/test.bash\""

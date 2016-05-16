@@ -25,5 +25,5 @@ if [ -n "$target_dir" ]; then
 else
   find_local_virtualenv_file "$PYENV_DIR" || {
     [ "$PYENV_DIR" != "$PWD" ] && find_local_virtualenv_file "$PWD"
-  } || true
+  }
 fi

@@ -22,4 +22,7 @@ done
 
 if [ -n "$PYENV_VIRTUAL_ENV_VERSION" ]; then
   echo "$PYENV_VIRTUAL_ENV_VERSION"
+  exit
 fi
+
+exit 1
