@@ -23,7 +23,7 @@ setup() {
   assert_failure
 }
 
-@test "reads simple virtualenv file" {
+@test "reads simple virtual environment file" {
   cat > my-venv <<<"foo"
   run pyenv-virtualenv-file-read my-venv
   assert_success "foo"

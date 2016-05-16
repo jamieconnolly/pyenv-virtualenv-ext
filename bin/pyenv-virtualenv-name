@@ -8,8 +8,6 @@ set -e
 if [ -z "$PYENV_VIRTUAL_ENV" ]; then
   PYENV_VIRTUAL_ENV_FILE="$(pyenv-virtualenv-file)"
   PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-file-read "$PYENV_VIRTUAL_ENV_FILE" || true)"
-else
-  PYENV_VIRTUAL_ENV="$(basename $PYENV_VIRTUAL_ENV)"
 fi
 
 OLDIFS="$IFS"

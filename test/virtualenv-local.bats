@@ -7,13 +7,13 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-@test "no version" {
+@test "no virtual environment" {
   assert [ ! -e "${PWD}/.python-venv" ]
   run pyenv-virtualenv-local
   assert_failure "pyenv: no local virtual environment configured for this directory"
 }
 
-@test "local virtual environment" {
+@test "virtual environment" {
   cat > ".python-venv" <<<"foo"
   run pyenv-virtualenv-local
   assert_success "foo"

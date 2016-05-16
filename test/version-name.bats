@@ -9,7 +9,7 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-@test "no virtualenv selected" {
+@test "no virtual environment selected" {
   stub pyenv-virtualenv-name ": echo"
 
   run pyenv-version-name
@@ -18,26 +18,18 @@ setup() {
   unstub pyenv-virtualenv-name
 }
 
-@test "discovers version from pyenv-virtualenv-name" {
+@test "PYENV_VERSION has precedence over local" {
   stub pyenv-virtualenv-name ": echo \"foo\""
-  stub pyenv-virtualenv-prefix "foo : echo \"${PYENV_ROOT}/versions/2.7.11\""
+  create_version "2.7.10"
   create_virtualenv "2.7.11" "foo"
 
   run pyenv-version-name
-  assert_success "2.7.11"
-
-  unstub pyenv-virtualenv-name
-  unstub pyenv-virtualenv-prefix
-  remove_virtualenv "2.7.11" "foo"
-}
-
-@test "PYENV_VERSION has precedence over local virtual environment" {
-  create_version "2.7.10"
-  create_virtualenv "2.7.11" "foo"
+  assert_success "foo"
 
   PYENV_VERSION="2.7.10" run pyenv-version-name
   assert_success "2.7.10"
 
+  unstub pyenv-virtualenv-name
   remove_version "2.7.10"
   remove_virtualenv "2.7.11" "foo"
 }

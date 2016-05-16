@@ -50,13 +50,13 @@ create_file() {
   assert_success "${PYENV_TEST_DIR}/project/.python-venv"
 }
 
-@test "finds virtualenv file in target directory" {
+@test "finds virtual environment file in target directory" {
   create_file "project/.python-venv"
   run pyenv-virtualenv-file "${PWD}/project"
   assert_success "${PYENV_TEST_DIR}/project/.python-venv"
 }
 
-@test "fails when no virtualenv file in target directory" {
+@test "fails when no virtual environment file in target directory" {
   run pyenv-virtualenv-file "$PWD"
   assert_failure
 }
