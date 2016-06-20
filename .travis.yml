@@ -1,7 +1,7 @@
 language: c
 
-install: git clone https://github.com/sstephenson/bats.git
+install: git clone --depth 1 https://github.com/sstephenson/bats.git
 
 before_script:
-  - bats/bin/bats --version
-script: bats/bin/bats --tap test
+  - export PATH=$PWD/bats/bin:$PATH
+script: make test

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Usage: pyenv virtualenv-local [<virtualenv>]
 #        pyenv virtualenv-local [--unset]
-# Summary: Set or show the local application-specific Python virtual environment.
+# Summary: Set or show the local application-specific Python virtual environment
 
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x

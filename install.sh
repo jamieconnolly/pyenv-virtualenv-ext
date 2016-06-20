@@ -1,7 +1,6 @@
 #!/bin/sh
 # Usage: PREFIX=/usr/local ./install.sh
-#
-# Installs pyenv-virtualenv-ext under $PREFIX.
+# Summary: Install pyenv-virtualenv-ext under $PREFIX
 
 set -e
 
