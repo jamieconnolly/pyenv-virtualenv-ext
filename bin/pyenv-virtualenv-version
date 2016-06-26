@@ -5,13 +5,23 @@
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x
 
-unset PYENV_VIRTUAL_ENV_VERSION
-
-PYENV_VIRTUAL_ENV="${PYENV_VIRTUAL_ENV:-$(pyenv-virtualenv-name)}"
-if [ -n "$PYENV_VIRTUAL_ENV" ]; then
-  PYENV_VIRTUAL_ENV_PREFIX="$(pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV")"
-  PYENV_VIRTUAL_ENV_VERSION="$(basename "$PYENV_VIRTUAL_ENV_PREFIX")"
+# Provide pyenv completions
+if [ "$1" = "--complete" ]; then
+  exec pyenv-virtualenvs --bare
 fi
+
+if [ -n "$1" ]; then
+  OLDIFS="$IFS"
+  { IFS=:
+    export PYENV_VIRTUAL_ENV="$*"
+  }
+  IFS="$OLDIFS"
+elif [ -z "$PYENV_VIRTUAL_ENV" ]; then
+  PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-name)"
+fi
+
+PYENV_VIRTUAL_ENV_PREFIX="$(pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" 2>/dev/null || true)"
+PYENV_VIRTUAL_ENV_VERSION="$(basename "$PYENV_VIRTUAL_ENV_PREFIX")"
 
 OLDIFS="$IFS"
 IFS=$'\n' scripts=(`pyenv-hooks virtualenv-version`)

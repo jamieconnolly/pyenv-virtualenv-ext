@@ -7,6 +7,15 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
+@test "fails if no local files exist" {
+  stub pyenv-hooks "virtualenv-origin : echo"
+
+  run pyenv-virtualenv-origin
+  assert_failure ""
+
+  unstub pyenv-hooks
+}
+
 @test "detects PYENV_VIRTUAL_ENV" {
   stub pyenv-hooks "virtualenv-origin : echo"
 
