@@ -6,7 +6,7 @@ set -e
 [ -n "$PYENV_DEBUG" ] && set -x
 
 if [ -z "$PYENV_VIRTUAL_ENV" ]; then
-  PYENV_VIRTUAL_ENV_FILE="$(pyenv-virtualenv-file)"
+  PYENV_VIRTUAL_ENV_FILE="$(pyenv-virtualenv-file || true)"
   PYENV_VIRTUAL_ENV="$(pyenv-virtualenv-file-read "$PYENV_VIRTUAL_ENV_FILE" || true)"
 fi
 

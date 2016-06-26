@@ -7,44 +7,44 @@ setup() {
   cd "$PYENV_TEST_DIR"
 }
 
-# @test "no virtual environment selected" {
-  # stub pyenv-hooks "virtualenv-name : echo"
+@test "no virtual environment selected" {
+  stub pyenv-hooks "virtualenv-name : echo"
 
-  # run pyenv-virtualenv-name
-  # assert_failure "dsa"
+  run pyenv-virtualenv-name
+  assert_failure ""
 
-  # unstub pyenv-hooks
-# }
+  unstub pyenv-hooks
+}
 
 @test "PYENV_VIRTUAL_ENV can be overridden by hook" {
+  create_hook virtualenv-name test.bash <<<"PYENV_VIRTUAL_ENV=bar"
   stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/test.bash\""
   stub pyenv-virtualenv-prefix "bar : true"
-  create_hook virtualenv-name test.bash <<<"PYENV_VIRTUAL_ENV=bar"
 
   PYENV_VIRTUAL_ENV=foo run pyenv-virtualenv-name
   assert_success "bar"
 
+  remove_hook virtualenv-name test.bash
   unstub pyenv-hooks
   unstub pyenv-virtualenv-prefix
-  remove_hook virtualenv-name test.bash
 }
 
 @test "carries original IFS within hooks" {
-  stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/hello.bash\""
-  stub pyenv-virtualenv-prefix "foo : true"
   create_hook virtualenv-name hello.bash <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
 echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 SH
+  stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/hello.bash\""
+  stub pyenv-virtualenv-prefix "foo : true"
 
   export PYENV_VIRTUAL_ENV=foo
   IFS=$' \t\n' run pyenv-virtualenv-name env
   assert_success
   assert_line "HELLO=:hello:ugly:world:again"
 
+  remove_hook virtualenv-name hello.bash
   unstub pyenv-hooks
   unstub pyenv-virtualenv-prefix
-  remove_hook virtualenv-name hello.bash
 }
 
 @test "PYENV_VIRTUAL_ENV has precedence over local" {
