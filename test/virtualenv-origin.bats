@@ -36,30 +36,30 @@ setup() {
 }
 
 @test "reports from hook" {
-  stub pyenv-hooks "virtualenv-origin : echo \"${PYENV_HOOK_PATH}/virtualenv-origin/test.bash\""
   create_hook virtualenv-origin test.bash <<<"PYENV_VIRTUAL_ENV_ORIGIN=plugin"
+  stub pyenv-hooks "virtualenv-origin : echo \"${PYENV_HOOK_PATH}/virtualenv-origin/test.bash\""
 
   PYENV_VIRTUAL_ENV=1 run pyenv-virtualenv-origin
   assert_success "plugin"
 
-  unstub pyenv-hooks
   remove_hook virtualenv-origin test.bash
+  unstub pyenv-hooks
 }
 
 @test "carries original IFS within hooks" {
-  stub pyenv-hooks "virtualenv-origin : echo \"${PYENV_HOOK_PATH}/virtualenv-origin/hello.bash\""
   create_hook virtualenv-origin hello.bash <<SH
 hellos=(\$(printf "hello\\tugly world\\nagain"))
 echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 SH
+  stub pyenv-hooks "virtualenv-origin : echo \"${PYENV_HOOK_PATH}/virtualenv-origin/hello.bash\""
 
   export PYENV_VIRTUAL_ENV=foo
   IFS=$' \t\n' run pyenv-virtualenv-origin env
   assert_success
   assert_line "HELLO=:hello:ugly:world:again"
 
-  unstub pyenv-hooks
   remove_hook virtualenv-origin hello.bash
+  unstub pyenv-hooks
 }
 
 @test "doesn't inherit PYENV_VIRTUAL_ENV_ORIGIN from environment" {

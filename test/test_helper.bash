@@ -107,13 +107,13 @@ assert_line() {
 }
 
 create_executable() {
-  mkdir -p "${PYENV_ROOT}/versions/$1/bin"
-  touch "${PYENV_ROOT}/versions/$1/bin/$2"
-  chmod +x "${PYENV_ROOT}/versions/$1/bin/$2"
+  mkdir -p "$1/bin"
+  touch "$1/bin/$2"
+  chmod +x "$1/bin/$2"
 }
 
 remove_executable() {
-  rm -f "${PYENV_ROOT}/versions/$1/bin/$2"
+  rm -f "$1/bin/$2"
 }
 
 create_hook() {
@@ -129,7 +129,7 @@ remove_hook() {
 }
 
 create_version() {
-  create_executable "$1" "python"
+  create_executable "${PYENV_ROOT}/versions/$1" "python"
 }
 
 remove_version() {
@@ -137,14 +137,15 @@ remove_version() {
 }
 
 create_virtualenv() {
-  create_version "$1"
-  create_version "${2:-$1}"
-  mkdir -p "${PYENV_ROOT}/versions/$1/lib/python${2:-$1}"
-  echo "${PYENV_ROOT}/versions/${2:-$1}" > "${PYENV_ROOT}/versions/$1/lib/python${2:-$1}/orig-prefix.txt"
-  touch "${PYENV_ROOT}/versions/$1/bin/activate"
+  if [ "$1" = "system" ]; then
+    create_executable "${PYENV_ROOT}/versions/$2" "python"
+  else
+    create_version "$1"
+    create_executable "${PYENV_ROOT}/versions/$1/envs/$2" "python"
+  fi
 }
 
 remove_virtualenv() {
   remove_version "$1"
-  remove_version "${2:-$1}"
+  remove_executable "${PYENV_ROOT}/versions/$1/envs/$2" "python"
 }
