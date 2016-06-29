@@ -43,8 +43,8 @@ create_file() {
 }
 
 @test "PWD is searched if PYENV_DIR yields no results" {
-  mkdir -p "widget/blank"
   create_file "project/.python-venv"
+  mkdir -p "widget/blank"
   cd project
   PYENV_DIR="${PWD}/widget/blank" run pyenv-virtualenv-file
   assert_success "${PYENV_TEST_DIR}/project/.python-venv"

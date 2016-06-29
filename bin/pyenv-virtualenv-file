@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: pyenv virtualenv-file [<dir>]
-# Summary: Detect the file that sets the current Python virtual environment
+# Summary: Detect the file that sets the current virtual environment
 
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x

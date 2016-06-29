@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: pyenv virtualenv-name
-# Summary: Show the current Python virtual environment
+# Summary: Show the current virtual Python environment
 
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x
@@ -17,14 +17,25 @@ for script in "${scripts[@]}"; do
   source "$script"
 done
 
-if [ -n "$PYENV_VIRTUAL_ENV" ]; then
-  if pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" 1>/dev/null 2>&1; then
-    echo $PYENV_VIRTUAL_ENV
-    exit
+virtualenv_exists() {
+  local version="$1"
+  local virtualenv="$2"
+
+  if [ "$version" = "system" ]; then
+    [ -d "${PYENV_ROOT}/versions/${virtualenv}" ]
   else
-    echo "pyenv: virtualenv \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
+    [ -d "${PYENV_ROOT}/versions/${version}/envs/${virtualenv}" ]
+  fi
+}
+
+if [ -n "$PYENV_VIRTUAL_ENV" ]; then
+  PYENV_VERSION="$(pyenv-version-name)"
+  if virtualenv_exists "$PYENV_VERSION" "$PYENV_VIRTUAL_ENV"; then
+    echo $PYENV_VIRTUAL_ENV
+  else
+    echo "pyenv: \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
     exit 1
   fi
+else
+  exit 1
 fi
-
-exit 1
