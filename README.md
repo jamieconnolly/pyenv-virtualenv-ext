@@ -3,9 +3,9 @@
 [![build-status-image]][travis-ci]
 [![license-image]][license]
 
-pyenv-virtualenv-ext is a [pyenv] plugin that hooks into `pyenv version-name`
-and `pyenv-version-origin` to make itself transparently aware of the virtual
-environment specified inside a `.python-venv` file.
+pyenv-virtualenv-ext is a [pyenv] plugin that hooks into `pyenv which` to make
+itself transparently aware of the virtual environment specified inside a
+`.python-venv` file.
 
 This means you don't have to add `eval "$(pyenv virtualenv-init -)"` to your
 profile, or manually activate the virtual environment.
