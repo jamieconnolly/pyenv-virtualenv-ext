@@ -38,33 +38,38 @@ setup() {
 }
 
 @test "sets local virtual environment" {
-  create_virtualenv "2.7.11" "foo"
-  stub pyenv-virtualenv-prefix "foo : echo \"${PYENV_ROOT}/versions/2.7.11\""
+  create_virtualenv "2.7.12" "foo"
+  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-virtualenv-prefix "2.7.12/envs/foo : echo \"${PYENV_ROOT}/versions/2.7.12\""
 
   assert [ ! -e ".python-venv" ]
   run pyenv-virtualenv-local foo
   assert_success ""
   assert [ "$(cat .python-venv)" = "foo" ]
 
-  remove_virtualenv "2.7.11" "foo"
+  remove_virtualenv "2.7.12" "foo"
+  unstub pyenv-version-name
   unstub pyenv-virtualenv-prefix
 }
 
 @test "changes local virtual environment" {
-  create_virtualenv "2.7.11" "foo"
-  create_virtualenv "2.7.11" "bar"
-  stub pyenv-virtualenv-prefix "bar : echo \"${PYENV_ROOT}/versions/2.7.11\""
+  create_virtualenv "2.7.12" "foo"
+  create_virtualenv "2.7.12" "bar"
 
   cat > ".python-venv" <<<"foo"
   run pyenv-virtualenv-local
   assert_success "foo"
 
+  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-virtualenv-prefix "2.7.12/envs/bar : echo \"${PYENV_ROOT}/versions/2.7.12\""
+
   run pyenv-virtualenv-local bar
   assert_success ""
   assert [ "$(cat .python-venv)" = "bar" ]
 
-  remove_virtualenv "2.7.11" "foo"
-  remove_virtualenv "2.7.11" "bar"
+  remove_virtualenv "2.7.12" "foo"
+  remove_virtualenv "2.7.12" "bar"
+  unstub pyenv-version-name
   unstub pyenv-virtualenv-prefix
 }
 

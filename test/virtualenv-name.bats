@@ -22,7 +22,7 @@ setup() {
   create_virtualenv "2.7.12" "foo"
   create_virtualenv "2.7.12" "bar"
   stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/test.bash\""
-  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-version-name ": echo \"2.7.12:3.5.2\""
 
   PYENV_VIRTUAL_ENV=foo run pyenv-virtualenv-name
   assert_success "bar"
@@ -41,7 +41,7 @@ echo HELLO="\$(printf ":%s" "\${hellos[@]}")"
 SH
   create_virtualenv "2.7.12" "foo"
   stub pyenv-hooks "virtualenv-name : echo \"${PYENV_HOOK_PATH}/virtualenv-name/hello.bash\""
-  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-version-name ": echo \"2.7.12:3.5.2\""
 
   export PYENV_VIRTUAL_ENV=foo
   IFS=$' \t\n' run pyenv-virtualenv-name env
@@ -58,7 +58,7 @@ SH
   create_virtualenv "2.7.12" "foo"
   create_virtualenv "system" "bar"
   stub pyenv-hooks "virtualenv-name : echo"
-  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-version-name ": echo \"2.7.12:3.5.2\""
 
   cat > ".python-venv" <<<"foo"
   run pyenv-virtualenv-name
@@ -78,7 +78,7 @@ SH
 
 @test "missing virtual environment" {
   stub pyenv-hooks "virtualenv-name : echo"
-  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-version-name ": echo \"2.7.12:3.5.2\""
   stub pyenv-virtualenv-origin "echo \"PYENV_VIRTUAL_ENV environment variable\""
 
   PYENV_VIRTUAL_ENV=foo run pyenv-virtualenv-name
