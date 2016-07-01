@@ -107,13 +107,27 @@ assert_line() {
 }
 
 create_executable() {
-  mkdir -p "$1/bin"
-  touch "$1/bin/$2"
-  chmod +x "$1/bin/$2"
+  if [ "$1" = "system" ]; then
+    shift
+  fi
+
+  if [ "$#" -eq 2 ]; then
+    mkdir -p "${PYENV_ROOT}/versions/$1/bin"
+    touch "${PYENV_ROOT}/versions/$1/bin/$2"
+    chmod +x "${PYENV_ROOT}/versions/$1/bin/$2"
+  elif [ "$#" -eq 3 ]; then
+    mkdir -p "${PYENV_ROOT}/versions/$1/envs/$2/bin"
+    touch "${PYENV_ROOT}/versions/$1/envs/$2/bin/$3"
+    chmod +x "${PYENV_ROOT}/versions/$1/envs/$2/bin/$3"
+  fi
 }
 
 remove_executable() {
-  rm -f "$1/bin/$2"
+  if [ "$#" -eq 2 ]; then
+    rm -f "${PYENV_ROOT}/versions/$1/bin/$2"
+  elif [ "$#" -eq 3 ]; then
+    rm -f "${PYENV_ROOT}/versions/$1/envs/$2/bin/$3"
+  fi
 }
 
 create_hook() {
@@ -129,7 +143,7 @@ remove_hook() {
 }
 
 create_version() {
-  create_executable "${PYENV_ROOT}/versions/$1" "python"
+  create_executable "$1" "python"
 }
 
 remove_version() {
@@ -138,14 +152,14 @@ remove_version() {
 
 create_virtualenv() {
   if [ "$1" = "system" ]; then
-    create_executable "${PYENV_ROOT}/versions/$2" "python"
+    create_version "$2"
   else
     create_version "$1"
-    create_executable "${PYENV_ROOT}/versions/$1/envs/$2" "python"
+    create_executable "$1" "$2" "python"
   fi
 }
 
 remove_virtualenv() {
   remove_version "$1"
-  remove_executable "${PYENV_ROOT}/versions/$1/envs/$2" "python"
+  remove_executable "$1" "$2" "python"
 }
