@@ -12,8 +12,16 @@ if [ -z "$PYENV_VIRTUAL_ENV" ] || [ -z "$PYENV_VIRTUAL_ENV_FILE" ]; then
   exit 1
 fi
 
+OLDIFS="$IFS"
+IFS=: PYENV_VERSION=($(pyenv-version-name))
+IFS="$OLDIFS"
+
 # Make sure the specified virtual environment is installed
-pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" >/dev/null
+if [ "$PYENV_VERSION" = "system" ]; then
+  pyenv-virtualenv-prefix "$PYENV_VIRTUAL_ENV" >/dev/null
+else
+  pyenv-virtualenv-prefix "${PYENV_VERSION}/envs/${PYENV_VIRTUAL_ENV}" >/dev/null
+fi
 
 # Write the virtual environment out to disk
 echo "$PYENV_VIRTUAL_ENV" > "$PYENV_VIRTUAL_ENV_FILE"

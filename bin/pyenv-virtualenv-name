@@ -29,7 +29,10 @@ virtualenv_exists() {
 }
 
 if [ -n "$PYENV_VIRTUAL_ENV" ]; then
-  PYENV_VERSION="$(pyenv-version-name)"
+  OLDIFS="$IFS"
+  IFS=: PYENV_VERSION=($(pyenv-version-name))
+  IFS="$OLDIFS"
+
   if virtualenv_exists "$PYENV_VERSION" "$PYENV_VIRTUAL_ENV"; then
     echo $PYENV_VIRTUAL_ENV
   else
