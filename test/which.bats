@@ -20,12 +20,14 @@ setup() {
   create_virtualenv "3.5.2" "foo"
   create_executable "2.7.12" "foo" "py.test"
   create_executable "3.5.2" "foo" "py.test"
+  stub pyenv-prefix "2.7.12/envs/foo : echo \"${PYENV_ROOT}/versions/2.7.12/envs/foo\""
   stub pyenv-version-name ": echo \"2.7.12\""
   stub pyenv-virtualenv-name ": echo \"foo\""
 
   run pyenv-which py.test
   assert_success "${PYENV_ROOT}/versions/2.7.12/envs/foo/bin/py.test"
 
+  stub pyenv-prefix "3.5.2/envs/foo : echo \"${PYENV_ROOT}/versions/3.5.2/envs/foo\""
   stub pyenv-virtualenv-name ": echo \"foo\""
 
   PYENV_VERSION=3.5.2 run pyenv-which py.test
@@ -35,6 +37,7 @@ setup() {
   remove_virtualenv "3.5.2" "foo"
   remove_executable "2.7.12" "foo" "py.test"
   remove_executable "3.5.2" "foo" "py.test"
+  unstub pyenv-prefix
   unstub pyenv-version-name
   unstub pyenv-virtualenv-name
 }
@@ -44,12 +47,14 @@ setup() {
   create_virtualenv "2.7.12" "foo"
   create_executable "2.7.12" "bar" "py.test"
   create_executable "2.7.12" "foo" "py.test"
+  stub pyenv-prefix "2.7.12/envs/foo : echo \"${PYENV_ROOT}/versions/2.7.12/envs/foo\""
   stub pyenv-version-name ": echo \"2.7.12\""
   stub pyenv-virtualenv-name ": echo \"foo\""
 
   run pyenv-which py.test
   assert_success "${PYENV_ROOT}/versions/2.7.12/envs/foo/bin/py.test"
 
+  stub pyenv-prefix "2.7.12/envs/bar : echo \"${PYENV_ROOT}/versions/2.7.12/envs/bar\""
   stub pyenv-version-name ": echo \"2.7.12\""
 
   PYENV_VIRTUAL_ENV=bar run pyenv-which py.test
@@ -59,6 +64,7 @@ setup() {
   remove_virtualenv "2.7.12" "foo"
   remove_executable "2.7.12" "bar" "py.test"
   remove_executable "2.7.12" "foo" "py.test"
+  unstub pyenv-prefix
   unstub pyenv-version-name
   unstub pyenv-virtualenv-name
 }
@@ -66,6 +72,7 @@ setup() {
 @test "handles system-based virtual environment" {
   create_virtualenv "system" "foo"
   create_executable "system" "foo" "py.test"
+  stub pyenv-prefix "foo : echo \"${PYENV_ROOT}/versions/foo\""
   stub pyenv-version-name ": echo \"system\""
   stub pyenv-virtualenv-name ": echo \"foo\""
 
@@ -74,6 +81,7 @@ setup() {
 
   remove_virtualenv "system" "foo"
   remove_executable "system" "foo" "py.test"
+  unstub pyenv-prefix
   unstub pyenv-version-name
   unstub pyenv-virtualenv-name
 }
