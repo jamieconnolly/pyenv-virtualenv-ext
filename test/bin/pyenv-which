@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: pyenv which <command>
-# Summary: Fake which command.
+# Summary: Fake which command
 
 set -e
 [ -n "$PYENV_DEBUG" ] && set -x
@@ -20,7 +20,7 @@ if [ -n "$WHICH_HOOK" ]; then
   source "$WHICH_HOOK"
 fi
 
-if [ -n "$PYENV_COMMAND_PATH" ]; then
+if [ -x "$PYENV_COMMAND_PATH" ]; then
   echo "$PYENV_COMMAND_PATH"
 else
   echo "pyenv: $PYENV_COMMAND: command not found" >&2
