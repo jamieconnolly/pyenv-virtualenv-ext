@@ -8,9 +8,9 @@ if [ -n "$PYENV_VIRTUAL_ENV" ]; then
   IFS="$OLDIFS"
 
   if [ "$PYENV_VERSION" = "system" ]; then
-    PYENV_PREFIX="$(pyenv prefix "$PYENV_VIRTUAL_ENV" 2>/dev/null || true)"
+    PYENV_PREFIX="$(pyenv-prefix "$PYENV_VIRTUAL_ENV" 2>/dev/null || true)"
   else
-    PYENV_PREFIX="$(pyenv prefix "${PYENV_VERSION}/envs/${PYENV_VIRTUAL_ENV}" 2>/dev/null || true)"
+    PYENV_PREFIX="$(pyenv-prefix "${PYENV_VERSION}/envs/${PYENV_VIRTUAL_ENV}" 2>/dev/null || true)"
   fi
 
   if [ -d "$PYENV_PREFIX" ]; then
