@@ -7,7 +7,7 @@ set -e
 VIRTUAL_ENV_FILE="$1"
 
 if [ -e "$VIRTUAL_ENV_FILE" ]; then
-  # Read the first non-whitespace word from the specified version file.
+  # Read the first non-whitespace word from the specified virtualenv file.
   # Be careful not to load it whole in case there's something crazy in it.
   IFS="${IFS}"$'\r'
   words=( $(cut -b 1-1024 "$VIRTUAL_ENV_FILE") )
