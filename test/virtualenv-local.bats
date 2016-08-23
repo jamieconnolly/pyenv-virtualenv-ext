@@ -3,8 +3,8 @@
 load test_helper
 
 setup() {
-  mkdir -p "$PYENV_TEST_DIR"
-  cd "$PYENV_TEST_DIR"
+  mkdir -p "${PYENV_TEST_DIR}/myproject"
+  cd "${PYENV_TEST_DIR}/myproject"
 }
 
 @test "no virtual environment" {
