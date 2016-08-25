@@ -17,6 +17,11 @@ for script in "${scripts[@]}"; do
   source "$script"
 done
 
+if [ -z "$PYENV_VIRTUAL_ENV" ]; then
+  echo "pyenv: no virtual environment selected" >&2
+  exit 1
+fi
+
 virtualenv_exists() {
   local version="$1"
   local virtualenv="$2"
@@ -28,17 +33,13 @@ virtualenv_exists() {
   fi
 }
 
-if [ -n "$PYENV_VIRTUAL_ENV" ]; then
-  OLDIFS="$IFS"
-  IFS=: PYENV_VERSION=($(pyenv-version-name))
-  IFS="$OLDIFS"
+OLDIFS="$IFS"
+IFS=: PYENV_VERSION=($(pyenv-version-name))
+IFS="$OLDIFS"
 
-  if virtualenv_exists "$PYENV_VERSION" "$PYENV_VIRTUAL_ENV"; then
-    echo $PYENV_VIRTUAL_ENV
-  else
-    echo "pyenv: \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
-    exit 1
-  fi
+if virtualenv_exists "$PYENV_VERSION" "$PYENV_VIRTUAL_ENV"; then
+  echo $PYENV_VIRTUAL_ENV
 else
+  echo "pyenv: \`$PYENV_VIRTUAL_ENV' is not a virtual environment (set by $(pyenv-virtualenv-origin))" >&2
   exit 1
 fi
