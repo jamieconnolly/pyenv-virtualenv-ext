@@ -15,27 +15,25 @@ setup() {
   assert_failure "pyenv: py.test: command not found"
 }
 
-@test "PYENV_VERSION has precedence over pyenv-version-name" {
-  create_virtualenv "2.7.12" "foo"
+@test "PYENV_VERSION has precedence over virtual environment" {
+  create_version "2.7.12"
+  create_executable "2.7.12" "py.test"
+
+  PYENV_VERSION=2.7.12 run pyenv-which py.test
+  assert_success "${PYENV_ROOT}/versions/2.7.12/bin/py.test"
+
   create_virtualenv "3.5.2" "foo"
-  create_executable "2.7.12" "foo" "py.test"
   create_executable "3.5.2" "foo" "py.test"
-  stub pyenv-prefix "2.7.12/envs/foo : echo \"${PYENV_ROOT}/versions/2.7.12/envs/foo\""
-  stub pyenv-version-name ": echo \"2.7.12\""
+  stub pyenv-prefix "3.5.2/envs/foo : echo \"${PYENV_ROOT}/versions/3.5.2/envs/foo\""
+  stub pyenv-version-name ": echo \"3.5.2\""
   stub pyenv-virtualenv-name ": echo \"foo\""
 
   run pyenv-which py.test
-  assert_success "${PYENV_ROOT}/versions/2.7.12/envs/foo/bin/py.test"
-
-  stub pyenv-prefix "3.5.2/envs/foo : echo \"${PYENV_ROOT}/versions/3.5.2/envs/foo\""
-  stub pyenv-virtualenv-name ": echo \"foo\""
-
-  PYENV_VERSION=3.5.2 run pyenv-which py.test
   assert_success "${PYENV_ROOT}/versions/3.5.2/envs/foo/bin/py.test"
 
-  remove_virtualenv "2.7.12" "foo"
+  remove_version "2.7.12"
   remove_virtualenv "3.5.2" "foo"
-  remove_executable "2.7.12" "foo" "py.test"
+  remove_executable "2.7.12" "py.test"
   remove_executable "3.5.2" "foo" "py.test"
   unstub pyenv-prefix
   unstub pyenv-version-name
