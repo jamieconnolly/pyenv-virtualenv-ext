@@ -12,7 +12,7 @@ setup() {
 
   assert [ ! -d "${PYENV_ROOT}/versions" ]
   run pyenv-virtualenv-name
-  assert_failure ""
+  assert_failure "pyenv: no virtual environment selected"
 
   unstub pyenv-hooks
 }
